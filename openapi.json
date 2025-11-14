@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "ODDSCORP.COM: API for bookmaker forks, value bets and information about LIVE and PREMATCH sports events",
-    "description": "<a href=\"http://oddscorp.com\">ODDSCORP.COM</a> - API for receiving bookmaker forks, value bets and information about LIVE and PREMATCH sports events from various bookmakers and exchanges:<br>\nbet365, 1xbet, fonbet, betcity, betfair, bingoboom (betboom), bookmaker, winline, stake, pinnacle, parimatch, olimp, marathon, ligastavok, 188bet and others. <br><br>\nThe list of all available bookmakers can be viewed at <a href=\"https://docs.google.com/spreadsheets/d/1LFDmgJr0qpDwYo2gpjQXPyRz6TGNaY0-O9cIOWwCHqE/edit?usp=sharing\">this link</a>. Upon request we are ready to connect other bookmakers.<br><br>\nIn our bookmaker API for betting, you will find information on sports events from 65+ bookmakers. You will be able to use the API data to make value bets and arbitrage bets.<br><br>\nContact support (telegram: <a href =\"https://t.me/oddscorp\">@oddscorp</a>) and you will be provided with a trial period to receive bookmaker forks, value bets, updated odds in live and prematch via API.\n<br><br>\n<a href=\"https://t.me/+C1owllhgJXBlZGVi\">Our telegram channel with useful information </a>",
+    "title": "ODDSCORP.COM: API for bookmaker surebets, value bets and information about LIVE and PREMATCH sports events",
+    "description": "<a href=\"http://oddscorp.com\">ODDSCORP.COM</a> - API for receiving bookmaker surebets, value bets and information about LIVE and PREMATCH sports events from various bookmakers and exchanges:<br>\nbet365, 1xbet, fonbet, betcity, betfair, bingoboom (betboom), bookmaker, winline, stake, pinnacle, parimatch, olimp, marathon, ligastavok, 188bet and others. <br><br>\nThe list of all available bookmakers can be viewed at <a href=\"https://docs.google.com/spreadsheets/d/1LFDmgJr0qpDwYo2gpjQXPyRz6TGNaY0-O9cIOWwCHqE/edit?usp=sharing\">this link</a>. Upon request we are ready to connect other bookmakers.<br><br>\nIn our bookmaker API for betting, you will find information on sports events from 65+ bookmakers. You will be able to use the API data to make value bets and arbitrage bets.<br><br>\nContact support (telegram: <a href =\"https://t.me/oddscorp\">@oddscorp</a>) and you will be provided with a trial period to receive bookmaker surebets, value bets, updated odds in live and prematch via API.\n<br><br>\n<a href=\"https://t.me/+C1owllhgJXBlZGVi\">Our telegram channel with useful information </a>",
     "version": "0.1.1"
   },
   "servers": [
@@ -27,9 +27,9 @@
       "description": "<SchemaDefinition schemaRef=\"#/components/schemas/BetType\" />"
     },
     {
-      "name": "Fork",
-      "x-displayName": "Fork",
-      "description": "<SchemaDefinition schemaRef=\"#/components/schemas/Fork\" />"
+      "name": "surebet",
+      "x-displayName": "surebet",
+      "description": "<SchemaDefinition schemaRef=\"#/components/schemas/surebet\" />"
     },
     {
       "name": "Event",
@@ -46,7 +46,7 @@
     {
       "name": "Main",
       "tags": [
-        "PREMATCH / LIVE-Forks",
+        "PREMATCH / LIVE-surebets",
         "PREMATCH / LIVE-Events",
         "WebSocket [Odds Updates]",
         "PREMATCH / LIVE-Value bets",
@@ -59,7 +59,7 @@
         "Sport",
         "Bookmaker",
         "BetType",
-        "Fork",
+        "surebet",
         "Event",
         "Market"
       ]
@@ -71,7 +71,7 @@
         "tags": [
           "PREMATCH / LIVE-Value bets"
         ],
-        "description": "Returns a list of value bets according to specified parameters<br><br>__Request example&#58;__ <i>http&#58;//api.oddscp.com&#58;8111/valuebets?bk_name=fonbet&alive_sec=2&get_market_data=2&token=gd7a8fdggrtfg34b6c </i> <br><br>__For calculations it is necessary to use data only from \"valuing_data\".__<br><details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in the first set;<br>**\"0:0\"** - this is the score in the second set;<br>**S2,B** - now break before the second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from the start of the match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half is going on. In the first half the 2nd team scored, and in the second half the 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our fork/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
+        "description": "Returns a list of value bets according to specified parameters<br><br>__Request example&#58;__ <i>http&#58;//api.oddscp.com&#58;8111/valuebets?bk_name=fonbet&alive_sec=2&get_market_data=2&token=gd7a8fdggrtfg34b6c </i> <br><br>__For calculations it is necessary to use data only from \"valuing_data\".__<br><details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in the first set;<br>**\"0:0\"** - this is the score in the second set;<br>**S2,B** - now break before the second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from the start of the match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half is going on. In the first half the 2nd team scored, and in the second half the 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our surebet/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
         "summary": "Get list of value bets",
         "operationId": "getValueBets",
         "parameters": [
@@ -379,18 +379,18 @@
         }
       }
     },
-    "/forks": {
+    "/surebets": {
       "get": {
         "tags": [
-          "PREMATCH / LIVE-Forks"
+          "PREMATCH / LIVE-surebets"
         ],
-        "description": "Returns list of PREMATCH / LIVE forks according to specified parameters<br><br>__Request example&#58;__ <i>http&#58;//api.oddscp.com&#58;8111/forks?bk2_name=pinnacle,bet365,fonbet&min_fi=1&token=afdjd8fd8rjkfu7fa7f3 </i> <br><details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in first set;<br>**\"0:0\"** - this is score in second set;<br>**S2,B** - now break before second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from start of match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half going on. In first half 2nd team scored, and in second half 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something newRetryMKContinueyaml to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our fork/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
-        "summary": "Get list of PREMATCH / LIVE forks",
-        "operationId": "getForks",
+        "description": "Returns list of PREMATCH / LIVE surebets according to specified parameters<br><br>__Request example&#58;__ <i>http&#58;//api.oddscp.com&#58;8111/surebets?bk2_name=pinnacle,bet365,fonbet&min_fi=1&token=afdjd8fd8rjkfu7fa7f3 </i> <br><details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in first set;<br>**\"0:0\"** - this is score in second set;<br>**S2,B** - now break before second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from start of match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half going on. In first half 2nd team scored, and in second half 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something newRetryMKContinueyaml to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our surebet/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
+        "summary": "Get list of PREMATCH / LIVE surebets",
+        "operationId": "getsurebets",
         "parameters": [
           {
             "name": "live",
-            "description": "Getting **PREMATCH forks**. Specify \"**&live=0**\" to get prematch forks. By default LIVE forks are requested, i.e. for LIVE forks this parameter doesn't need to be specified.",
+            "description": "Getting **PREMATCH surebets**. Specify \"**&live=0**\" to get prematch surebets. By default LIVE surebets are requested, i.e. for LIVE surebets this parameter doesn't need to be specified.",
             "in": "query",
             "schema": {
               "type": "number"
@@ -399,7 +399,7 @@
           },
           {
             "name": "bet_types",
-            "description": "Bet type in fork.<br> Current list of bet types with detailed description is at this link - <a href=\"http://api.oddscp.com:8111/static/possible_bets_list.txt\">http://api.oddscp.com:8111/static/possible_bets_list.txt</a>",
+            "description": "Bet type in surebet.<br> Current list of bet types with detailed description is at this link - <a href=\"http://api.oddscp.com:8111/static/possible_bets_list.txt\">http://api.oddscp.com:8111/static/possible_bets_list.txt</a>",
             "in": "query",
             "style": "form",
             "explode": false,
@@ -427,7 +427,7 @@
           },
           {
             "name": "event_id",
-            "description": "Getting forks only for specified event id",
+            "description": "Getting surebets only for specified event id",
             "in": "query",
             "schema": {
               "type": "string"
@@ -436,7 +436,7 @@
           },
           {
             "name": "bk2_name",
-            "description": "List of bookmakers participating in fork",
+            "description": "List of bookmakers participating in surebet",
             "in": "query",
             "required": true,
             "style": "form",
@@ -451,7 +451,7 @@
           },
           {
             "name": "bk_name",
-            "description": "Bookmaker that must participate in fork",
+            "description": "Bookmaker that must participate in surebet",
             "in": "query",
             "example": "fonbet",
             "schema": {
@@ -478,7 +478,7 @@
           },
           {
             "name": "min_fi",
-            "description": "Minimum fork %",
+            "description": "Minimum surebet %",
             "in": "query",
             "example": -1,
             "schema": {
@@ -487,7 +487,7 @@
           },
           {
             "name": "max_fi",
-            "description": "Maximum fork %",
+            "description": "Maximum surebet %",
             "in": "query",
             "example": 10,
             "schema": {
@@ -496,7 +496,7 @@
           },
           {
             "name": "is_middles",
-            "description": "Middles in output. -1 - without middles. 0 - forks and middles.\n1 - only middles",
+            "description": "Middles in output. -1 - without middles. 0 - surebets and middles.\n1 - only middles",
             "in": "query",
             "schema": {
               "type": "number",
@@ -510,7 +510,7 @@
           },
           {
             "name": "alive_sec",
-            "description": "Minimum time of fork existence for specified percentage (-1%)",
+            "description": "Minimum time of surebet existence for specified percentage (-1%)",
             "in": "query",
             "schema": {
               "type": "number",
@@ -519,7 +519,7 @@
           },
           {
             "name": "alive_prc",
-            "description": "Fork percentage relative to which alive_sec is calculated",
+            "description": "surebet percentage relative to which alive_sec is calculated",
             "in": "query",
             "schema": {
               "type": "number",
@@ -538,7 +538,7 @@
           },
           {
             "name": "get_cfs",
-            "description": "(Parameter available only for additional fee, clarify price with tech support). Outputs list of odds for current market on all bookmakers at given moment and outputs current score on fork match. In response will appear 3 keys - cfs1, cfs2, all_scores. <details> <summary>**<i>Usage methods (expand):</i>**</summary> <p><i>First of all, should be used to determine \"fork initiator\". In this case you should go through the entire list of bookmakers and calculate forks by standard formula (we will help with this if you don't have it) from the percentage you need.<br><br> Also, you should definitely consider \"mirrors\" - optimal option is to take the highest odds from all mirror offices. The list of mirrors itself can be obtained using data from /bookmakers method.<br><br> Besides determining the \"initiator\", this data can be used for deeper customization of your strategies, or simply put - filter the general flow of forks. How exactly? Here everything remains at the discretion of your own imagination and your experience.<br><br> Having the current score on the fork match for all bookmakers will allow you to analyze the current situation in more detail and be more confident in the bets you make.</i></p> </details>",
+            "description": "(Parameter available only for additional fee, clarify price with tech support). Outputs list of odds for current market on all bookmakers at given moment and outputs current score on surebet match. In response will appear 3 keys - cfs1, cfs2, all_scores. <details> <summary>**<i>Usage methods (expand):</i>**</summary> <p><i>First of all, should be used to determine \"surebet initiator\". In this case you should go through the entire list of bookmakers and calculate surebets by standard formula (we will help with this if you don't have it) from the percentage you need.<br><br> Also, you should definitely consider \"mirrors\" - optimal option is to take the highest odds from all mirror offices. The list of mirrors itself can be obtained using data from /bookmakers method.<br><br> Besides determining the \"initiator\", this data can be used for deeper customization of your strategies, or simply put - filter the general flow of surebets. How exactly? Here everything remains at the discretion of your own imagination and your experience.<br><br> Having the current score on the surebet match for all bookmakers will allow you to analyze the current situation in more detail and be more confident in the bets you make.</i></p> </details>",
             "in": "query",
             "example": 1,
             "schema": {
@@ -547,7 +547,7 @@
           },
           {
             "name": "score_filter",
-            "description": "Disable score check between bookmakers. By default for forks on soccer and hockey score check is enabled to avoid erroneous forks due to data update delay at bookmakers. For other sports this parameter doesn't work. Specify \"**&score_filter=0**\" to disable score check.",
+            "description": "Disable score check between bookmakers. By default for surebets on soccer and hockey score check is enabled to avoid erroneous surebets due to data update delay at bookmakers. For other sports this parameter doesn't work. Specify \"**&score_filter=0**\" to disable score check.",
             "in": "query",
             "schema": {
               "type": "number"
@@ -556,7 +556,7 @@
           },
           {
             "name": "show_swap",
-            "description": "Show whether team order was reversed for each bookmaker in fork. In response will appear 2 keys - BK1_event_swapped and BK2_event_swapped. Specify \"**&show_swap=1**\" to enable display.",
+            "description": "Show whether team order was reversed for each bookmaker in surebet. In response will appear 2 keys - BK1_event_swapped and BK2_event_swapped. Specify \"**&show_swap=1**\" to enable display.",
             "in": "query",
             "schema": {
               "type": "number"
@@ -566,11 +566,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns Fork array",
+            "description": "Returns surebet array",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Fork"
+                  "$ref": "#/components/schemas/surebet"
                 }
               }
             }
@@ -584,18 +584,18 @@
         }
       }
     },
-    "/forks/{fork_id}": {
+    "/surebets/{surebet_id}": {
       "get": {
         "tags": [
-          "PREMATCH / LIVE-Forks"
+          "PREMATCH / LIVE-surebets"
         ],
-        "summary": "Get fork details",
-        "description": "Request to get detailed information about individual fork (by its\nkey)<br><br>\n**Example request for prematch fork:** http://api.oddscp.com:8111/forks/13596cec090d11ac3b?live=0&token=afdjd8fd8rjkfu7fa7f3 (note parameter **live=0**) <br><br>**Example request for live fork:** http://api.oddscp.com:8111/forks/13596cec090d11ac3b?&token=afdjd8fd8rjkfu7fa7f3 <details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in first set;<br>**\"0:0\"** - this is score in second set;<br>**S2,B** - now break before second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from start of match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half going on. In first half 2nd team scored, and in second half 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our fork/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
-        "operationId": "getFork",
+        "summary": "Get surebet details",
+        "description": "Request to get detailed information about individual surebet (by its\nkey)<br><br>\n**Example request for prematch surebet:** http://api.oddscp.com:8111/surebets/13596cec090d11ac3b?live=0&token=afdjd8fd8rjkfu7fa7f3 (note parameter **live=0**) <br><br>**Example request for live surebet:** http://api.oddscp.com:8111/surebets/13596cec090d11ac3b?&token=afdjd8fd8rjkfu7fa7f3 <details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in first set;<br>**\"0:0\"** - this is score in second set;<br>**S2,B** - now break before second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from start of match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half going on. In first half 2nd team scored, and in second half 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our surebet/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
+        "operationId": "getsurebet",
         "parameters": [
           {
-            "name": "fork_id",
-            "description": "Fork identifier",
+            "name": "surebet_id",
+            "description": "surebet identifier",
             "required": true,
             "in": "path",
             "example": "70a5d610dac4c5c1a6",
@@ -606,11 +606,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns Fork",
+            "description": "Returns surebet",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Fork"
+                  "$ref": "#/components/schemas/surebet"
                 }
               }
             }
@@ -619,7 +619,7 @@
             "$ref": "#/components/responses/UnauthorizedError"
           },
           "404": {
-            "description": "Fork not found",
+            "description": "surebet not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -640,7 +640,7 @@
           "PREMATCH / LIVE-Events"
         ],
         "summary": "Get list of all events",
-        "description": "Request to get all events<details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in first set;<br>**\"0:0\"** - this is score in second set;<br>**S2,B** - now break before second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from start of match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half going on. In first half 2nd team scored, and in second half 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our fork/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br><br>**Pinnacle:prematch**<br>**\"maybe_freezed\"** - 0/1. Sometimes the event start time has already come, but pinnacle continues to give data about the event via API as if it's still available in prematch, although including on the pinnacle site itself it's no longer there. For such events \"maybe_freezed\":1 will be assigned<br>You can no longer bet on such odds, you can deal with these events at your discretion.<br><br>———</p></details><br>",
+        "description": "Request to get all events<details><summary>**<i>Examples and description of score formation (expand):</i>**</summary><p><br>**H** - half<br>**G** - game<br>**M** - map (esports)<br>**R** - round<br>**T** - period<br>**S** - set<br>**P** - period<br>**I** - inning (baseball)<br>**Q** - quarter<br><br>**OT** - overtime<br>**B** - break<br>__*__ - whose serve (Badminton, Volleyball)<br><br><br>**Examples:**<br>**1:0 (6:3)|T2,B**<br><br>**B** - means break before 2nd period;<br><br>———<br>**1:0 (6:3 0:0)|S2,B**<br><br>**\"1:0\"** - current score;<br>**\"6:3\"** - in first set;<br>**\"0:0\"** - this is score in second set;<br>**S2,B** - now break before second set;<br><br>———<br>**1:1 (0:1 1:0) 68`**<br><br>**\"68\"** - minutes of play from start of match;<br>**\"1:1\"** - current score;<br>**\"(0:1 1:0)\"** - second half going on. In first half 2nd team scored, and in second half 1st team scored;</p></details><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our surebet/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br><br>**Pinnacle:prematch**<br>**\"maybe_freezed\"** - 0/1. Sometimes the event start time has already come, but pinnacle continues to give data about the event via API as if it's still available in prematch, although including on the pinnacle site itself it's no longer there. For such events \"maybe_freezed\":1 will be assigned<br>You can no longer bet on such odds, you can deal with these events at your discretion.<br><br>———</p></details><br>",
         "operationId": "getEvents",
         "parameters": [
           {
@@ -808,7 +808,7 @@
           "PREMATCH / LIVE-Events"
         ],
         "summary": "Search for markets",
-        "description": "Request to search for markets by specified parameters.<br>One of the parameters is mandatory in request - __bk_event_ids__ and/or __bk_name__<br><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our fork/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
+        "description": "Request to search for markets by specified parameters.<br>One of the parameters is mandatory in request - __bk_event_ids__ and/or __bk_name__<br><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our surebet/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
         "operationId": "getMarkets",
         "parameters": [
           {
@@ -878,7 +878,7 @@
           "PREMATCH / LIVE-Events"
         ],
         "summary": "Getting all markets for specific event",
-        "description": "Request to search for all markets of specific event<br><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our fork/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
+        "description": "Request to search for all markets of specific event<br><details><summary>**<i>Description of meta components (expand):</i>**</summary><p><br>Meta can change depending on sport and bookmaker! Be careful!<br>We usually don't remove old data, only add new. We always try to inform about changes through our official telegram channel.<br>Something from meta may not be current or if you have any questions, please clarify with tech support.<br><br>We can add something new to meta if you need it. There is a 250 character limit in meta, but we will try to fit it.<br><br>———<br>**Pinnacle**<br>**\"key\":\"s;0;s;0.25** - this is marketKey, specifically this one - handicap in play 0.25<br>**\"dest\"** - can be \"null\" if the outcome doesn't have this field<br>**\"dest\\\":\\\"under\\\"** - new key for TU (TotalUnder)<br>**\"dest\\\":\\\"over\\\"** - new key for TO (TotalOver)<br>**\"points\"** - for handicaps and totals with original value from API, i.e. without considering sign and score for handicaps. For other bet types, the 'points' field is not added to meta.<br><br>**\"homeTeamType\"** - Team1 / Team2. Team order, which team is meant as home. <br>  - if homeTeamType=TEAM1, then the team order on pinnacle is the same as we indicate<br>  - if homeTeamType=TEAM2, then the team order on pinnacle is reversed, and the second team should be indicated first<br><br>**\"team\"** - TEAM1 / TEAM2. In our surebet/value data you need to follow this parameter.<br>  - if team=TEAM1 and we see P2, then the bet needs to be changed (P2 to P1)<br>  - if team=TEAM2 and we see P1, then also need to change (P1 to P2)<br>  - if team is empty (this can be for some sports), then do nothing<br><br>**homeTeamType and team are important parameters**, because some events on pinnacle have reversed team order. More details with examples can be found at <a href=\"https://docs.google.com/document/d/1awrY-ToW-Qj91dDxj12yFMLTp6AMUm1UG7_v2VrVWR0/edit?usp=sharing\">this link</a>.<br><br>———<br>**Parimatch(parimatch_com)**<br>Abbreviated parameter names in meta:<br>\"resultKind\\\":\\\"rK\\\"<br>\"outcomeType\\\":\\\"oT\\\"<br>\"period\\\":\\\"p\\\"<br>\"subPeriod\\\":\\\"sP\\\"<br>\"marketType\\\":\\\"mT\\\"<br>\"marketParameters\\\":\\\"mP\\\"<br>\"outcomeParameters\\\":\\\"oP\\\"<br>\"market_name\\\":\\\"mN\\\"<br>\"outcome_name\\\":\\\"oN\\\"<br>\"lineItemId\\\":\\\"lIId\\\"<br><br>———<br>**Fonbet:**<br>**live_delay** - variable directly from fonbet \"internals\". You can ignore it.<br>The higher the live_delay, the longer the bet will be accepted. There are bets that are accepted instantly - they have live_delay=0 or 1.<br>Standard is 3-4, but there are matches where it's 5-6.<br><br>———<br>**Unibet**<br>**boId** - this is bet group id<br>**id** - this is directly bet id<br>**event_id** -  eId<br><br>———<br>**Efbet**<br>**pu** - currentpriceup<br>**pd** - currentpricedown<br>**shc** - selectionhashcode<br>**m**n - marketname<br>**im** - idfomarket<br>**et** - eachwayterms<br>**prt** - pricetypes (everywhere)<br>**hv** - hadvalue (not set everywhere, so to not lose it we made it null if missing). HV - not always, actually it's Home/Away/Draw value, exists in some bets but not all. Mostly where it's critical for their internal bet identification.<br><br>At event level, a key is added to meta orig_name - event name as it is on efbet API.<br><br>———<br>**1xbet family (melbet/1xstavka)**<br>**NB** - nameBet/name_bet<br>**NG** - nameGroup/name_group<br>**C** - Price<br>**G** - Bet group id<br>**P** - bet identifier, used in handicaps/totals<br>**T** - bet identifier<br>**SSI** - SubsportID<br>**GN** - gameNum<br>**ei** - event_id<br>**gi** - game_id<br><br>———<br>**888**<br>**s_name** - sport name on site<br><br>———<br>**bet365**<br>**visible_ru** - false/true, \"visibility\" flag. Information about match \"visibility\" from RF version of site. This is determined by several criteria, they are not on the surface.<br>**true** - match is visible<br>**false** - match is unavailable for RF version.<br>Information is available in meta-data for the event itself<br><br>———<br>**eurobet**<br>**betGroup** - top group<br>**oggGroup** - what's inside the block<br>**odd** - third level text<br>**resultCode** - button id, they go in order there, there's no such thing in html, but with this meta you can generally find the bet without much problem<br></p></details><br>",
         "operationId": "getEventMarkets",
         "parameters": [
           {
@@ -918,7 +918,7 @@
       "Value": {
         "type": "object",
         "required": [
-          "fork_id",
+          "surebet_id",
           "event_id",
           "income",
           "BK1_name",
@@ -952,7 +952,7 @@
           "alive_sec"
         ],
         "properties": {
-          "fork_id": {
+          "surebet_id": {
             "type": "string",
             "description": "Value bet ID (value bet key)"
           },
@@ -983,7 +983,7 @@
             "$ref": "#/components/schemas/BetType"
           },
           "bet_type": {
-            "description": "General bet type in fork. If bk1_bet_type = bk2_bet_type,\nthen bet_type = bk1_bet_type, otherwise MIX"
+            "description": "General bet type in surebet. If bk1_bet_type = bk2_bet_type,\nthen bet_type = bk1_bet_type, otherwise MIX"
           },
           "sport": {
             "type": "string",
@@ -1082,7 +1082,7 @@
           },
           "alive_sec": {
             "type": "string",
-            "description": "How many seconds fork has percentage above specified in alive_prc (-1%)"
+            "description": "How many seconds surebet has percentage above specified in alive_prc (-1%)"
           },
           "valuing_data": {
             "type": "string",
@@ -1090,7 +1090,7 @@
           }
         },
         "example": {
-          "fork_id": "8a86a9cd528b53b366",
+          "surebet_id": "8a86a9cd528b53b366",
           "income": 0,
           "sport": "volleyball",
           "bet_type": "WIN",
@@ -1173,10 +1173,10 @@
           }
         }
       },
-      "Fork": {
+      "surebet": {
         "type": "object",
         "required": [
-          "fork_id",
+          "surebet_id",
           "event_id",
           "income",
           "ow_income",
@@ -1213,9 +1213,9 @@
           "alive_sec"
         ],
         "properties": {
-          "fork_id": {
+          "surebet_id": {
             "type": "string",
-            "description": "Fork key (fork_key)"
+            "description": "surebet key (surebet_key)"
           },
           "event_id": {
             "type": "number",
@@ -1223,7 +1223,7 @@
           },
           "income": {
             "type": "number",
-            "description": "Fork % (fi)"
+            "description": "surebet % (fi)"
           },
           "ow_income": {
             "type": "number",
@@ -1231,7 +1231,7 @@
           },
           "is_middles": {
             "type": "boolean",
-            "description": "false - regular fork, true - middle"
+            "description": "false - regular surebet, true - middle"
           },
           "is_cyber": {
             "type": "boolean",
@@ -1256,7 +1256,7 @@
             "$ref": "#/components/schemas/BetType"
           },
           "bet_type": {
-            "description": "General bet type in fork. If bk1_bet_type = bk2_bet_type,\nthen bet_type = bk1_bet_type, otherwise MIX"
+            "description": "General bet type in surebet. If bk1_bet_type = bk2_bet_type,\nthen bet_type = bk1_bet_type, otherwise MIX"
           },
           "sport": {
             "type": "string",
@@ -1355,7 +1355,7 @@
           },
           "alive_sec": {
             "type": "string",
-            "description": "How many seconds fork has percentage above specified in alive_prc (-1%)"
+            "description": "How many seconds surebet has percentage above specified in alive_prc (-1%)"
           },
           "cfs1": {
             "type": "string",
@@ -1367,7 +1367,7 @@
           },
           "all_scores": {
             "type": "string",
-            "description": "Current score on fork match across all bookmakers."
+            "description": "Current score on surebet match across all bookmakers."
           },
           "BK1_event_swapped": {
             "type": "string",
@@ -1379,7 +1379,7 @@
           }
         },
         "example": {
-          "fork_id": "8a86a9cd528b53b366",
+          "surebet_id": "8a86a9cd528b53b366",
           "income": 0,
           "sport": "volleyball",
           "bet_type": "WIN",
